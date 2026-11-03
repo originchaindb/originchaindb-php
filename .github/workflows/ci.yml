@@ -40,3 +40,5 @@ jobs:
         run: composer install --no-interaction
       - name: HTTP contract
         run: python tests/contract/run.py -- php tests/consumer.php
+      - name: Check example syntax
+        run: php -l examples/catalog.php

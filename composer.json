@@ -1,0 +1,30 @@
+{
+  "name": "originchain/originchaindb",
+  "description": "The official OriginChainDB SDK for PHP",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2",
+    "ext-curl": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "OriginChainDB\\": "src/"
+    }
+  },
+  "keywords": [
+    "database",
+    "sql",
+    "vector",
+    "graph",
+    "originchaindb"
+  ],
+  "homepage": "https://originchaindb.com",
+  "support": {
+    "issues": "https://github.com/originchaindb/originchaindb-php/issues"
+  },
+  "scripts": {
+    "test": "python tests/contract/run.py -- php tests/consumer.php"
+  }
+}

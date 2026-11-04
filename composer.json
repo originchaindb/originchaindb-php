@@ -26,5 +26,19 @@
   },
   "scripts": {
     "test": "python tests/contract/run.py -- php tests/consumer.php"
+  },
+  "archive": {
+    "exclude": [
+      "/.github",
+      "/tests",
+      "/benchmarks",
+      "/api",
+      "/scripts",
+      "/examples",
+      "/docs",
+      "/sdk-contract.json",
+      "/.contract-reference",
+      "/artifacts"
+    ]
   }
 }

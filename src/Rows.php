@@ -6,6 +6,7 @@ namespace OriginChainDB;
 
 final class Rows
 {
+    use RowIteration;
     public function __construct(private readonly Client $client)
     {
     }

@@ -34,11 +34,24 @@ jobs:
           php-version: "${{ matrix.runtime }}"
           extensions: curl, json
           coverage: none
+      - name: Check out the shared API v1 contract
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          repository: originchaindb/.github
+          ref: a47804a80fc5b31022d241dc814d905f6f78e723
+          path: .contract-reference
+          persist-credentials: false
+      - name: Verify cross-language contract
+        run: python scripts/check_contract.py
       - name: Validate package
         run: composer validate --strict
       - name: Install
         run: composer install --no-interaction
       - name: HTTP contract
         run: python tests/contract/run.py -- php tests/consumer.php
+      - name: Resilience contract
+        run: python tests/contract/resilience.py -- php tests/resilience.php
       - name: Check example syntax
         run: php -l examples/catalog.php
+      - name: Check application integration example
+        run: php -l examples/integration.php

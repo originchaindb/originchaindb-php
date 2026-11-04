@@ -78,4 +78,39 @@ final class SqlResult
         }
         return false;
     }
+
+    /** Map independent row copies using an application model constructor or validator.
+     * @template T
+     * @param callable(array<string,mixed>): T $decode
+     * @return list<T>
+     */
+    public function mapRows(callable $decode): array
+    {
+        $mapped = [];
+        foreach ($this->rows as $index => $row) {
+            try {
+                // Copy nested JSON objects too, preserving numeric strings and null.
+                $copy = self::copyValue($row);
+                $mapped[] = $decode($copy);
+            } catch (\Throwable $error) {
+                throw new RowDecodeException($index, $error);
+            }
+        }
+        return $mapped;
+    }
+
+    private static function copyValue(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            return array_map(self::copyValue(...), $value);
+        }
+        if ($value instanceof \stdClass) {
+            $copy = new \stdClass();
+            foreach (get_object_vars($value) as $key => $item) {
+                $copy->{$key} = self::copyValue($item);
+            }
+            return $copy;
+        }
+        return $value;
+    }
 }
